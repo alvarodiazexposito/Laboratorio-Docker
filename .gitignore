@@ -1,0 +1,10 @@
+# Archivos temporales
+*.log
+*.tmp
+
+# Archivos de copias de seguridad locales
+scripts/*.tar.gz
+backups/
+
+# Variables de entorno sensibles (si las usamos más adelante)
+.env
