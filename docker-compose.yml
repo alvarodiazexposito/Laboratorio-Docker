@@ -1,0 +1,47 @@
+version: '3.8'
+
+networks:
+  red-laboratorio:
+    driver: bridge
+
+services:
+  # Servidor Web
+  web:
+    image: nginx:alpine
+    container_name: servidor-web
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
+    networks:
+      - red-laboratorio
+
+  # Gestor visual de Docker
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: gestor-portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - red-laboratorio
+
+  # Sistema de Monitorización
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: monitor-uptime
+    restart: always
+    ports:
+      - "3001:3001"
+    volumes:
+      - uptime_kuma_data:/app/data
+    networks:
+      - red-laboratorio
+
+volumes:
+  portainer_data:
+  uptime_kuma_data:
